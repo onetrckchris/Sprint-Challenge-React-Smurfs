@@ -1,4 +1,37 @@
 import React, { Component } from 'react';
+import styled, { css } from 'styled-components';
+
+const Form = styled.form`
+    background-color: white;
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: auto;
+    margin-top: 25px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+`;
+
+const SmurfInput = styled.input`
+    height: 1.5rem;
+    padding: 5px;
+    font-size: 1.1rem;
+    border: 1px solid #dbdbdb;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    outline: none;
+
+    ${props => props.addButton && css`
+        height: 2rem;     
+
+        &:hover {
+            background-color: #dbdbdb;
+            color: white;
+            cursor: pointer;
+        }
+    `}
+`;
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -12,7 +45,14 @@ class SmurfForm extends Component {
 
   addSmurf = event => {
     event.preventDefault();
-    // add code to create the smurf using the api
+
+    const newSmurf = {
+      name: this.state.name,
+      age: this.state.age,
+      height: this.state.height
+    }
+
+    this.props.addSmurf(newSmurf);
 
     this.setState({
       name: '',
@@ -28,27 +68,27 @@ class SmurfForm extends Component {
   render() {
     return (
       <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
-          <input
+        <Form onSubmit={this.addSmurf}>
+          <SmurfInput
             onChange={this.handleInputChange}
             placeholder="name"
             value={this.state.name}
             name="name"
           />
-          <input
+          <SmurfInput
             onChange={this.handleInputChange}
             placeholder="age"
             value={this.state.age}
             name="age"
           />
-          <input
+          <SmurfInput
             onChange={this.handleInputChange}
             placeholder="height"
             value={this.state.height}
             name="height"
           />
-          <button type="submit">Add to the village</button>
-        </form>
+          <SmurfInput addButton type="submit" value="Add to the village" />
+        </Form>
       </div>
     );
   }
